@@ -34,14 +34,14 @@ class AuthenticationController extends Controller
         }
         return $this->success(
             (new LoginUserResource($user))
-                ->additional(['token' => $this->userService->generateAuthToken($user)]),
+                ->additional(['token' => $this->authenticationService->generateAuthToken($user)]),
             'Login successful.',
         );
     }
 
     public function logout(Request $request)
     {
-        $this->userService->revokeCurrentAuthToken($request->user());
+        $this->authenticationService->revokeCurrentAuthToken($request->user());
         
         return $this->success(message: 'Logout successful.');
     }
