@@ -46,52 +46,49 @@ jobs:
     - name: Run Tests
       run: php artisan test
 
-#   deploy:
-#     needs: tests
-#     runs-on: ubuntu-latest
-#     if: github.ref == 'refs/heads/test/ci-cd' && github.event_name == 'push'
+  deploy:
+    needs: tests
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/test/ci-cd' && github.event_name == 'push'
 
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
       
-#     - name: Setup PHP
-#       uses: shivammathur/setup-php@v2
-#       with:
-#         php-version: '8.2'
-#         extensions: mbstring, dom, fileinfo, mysql, gd, bcmath, zip
-#         coverage: none
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, dom, fileinfo, mysql, gd, bcmath, zip
+        coverage: none
 
-#     - name: Deploy Laravel API to EC2
-#       uses: appleboy/ssh-action@v1.0.3
-#       with:
-#         host: ${{ secrets.EC2_HOST }}
-#         username: ${{ secrets.EC2_USERNAME }}
-#         key: ${{ secrets.EC2_SSH_KEY }}
-#         script: |
-#           # Navigate to application directory
-#           cd /var/www/mentor-api
+    - name: Deploy Laravel API to EC2
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          # Navigate to application directory
+          cd /var/www/html/mentor-backend
           
-#           # Pull latest changes
-#           git pull origin main
+          # Pull latest changes
+          git pull origin main
           
-#           # Navigate to backend directory
-#           cd backend
+          # Install/update dependencies
+          composer install --no-dev --optimize-autoloader --no-interaction
           
-#           # Install/update dependencies
-#           composer install --no-dev --optimize-autoloader --no-interaction
+          # Run migrations
+          php artisan migrate:fresh --seed --force
           
-#           # Run migrations
-#           php artisan migrate --force
+          # Clear and cache configurations
+          php artisan optimize:clear
           
-#           # Clear and cache configurations
-#           php artisan optimize:clear
+          # Set proper permissions
+          # sudo chown -R www-data:www-data /var/www/mentor-api
+          # sudo chmod -R 755 /var/www/mentor-api
+          # sudo chmod -R 775 /var/www/mentor-api/backend/storage
+          # sudo chmod -R 775 /var/www/mentor-api/backend/bootstrap/cache
           
-#           # Set proper permissions
-#           sudo chown -R www-data:www-data /var/www/mentor-api
-#           sudo chmod -R 755 /var/www/mentor-api
-#           sudo chmod -R 775 /var/www/mentor-api/backend/storage
-#           sudo chmod -R 775 /var/www/mentor-api/backend/bootstrap/cache
-          
-#           # Restart PHP-FPM
-#           sudo systemctl restart php8.2-fpm
+          # Restart PHP-FPM
+          # sudo systemctl restart php8.2-fpm
