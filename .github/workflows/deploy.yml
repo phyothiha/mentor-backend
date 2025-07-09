@@ -76,7 +76,7 @@ jobs:
           git pull origin main
           
           # Install/update dependencies
-          composer install --no-dev --optimize-autoloader --no-interaction
+          composer install --optimize-autoloader --no-interaction
           
           # Run migrations
           php artisan migrate:fresh --seed --force
@@ -88,8 +88,8 @@ jobs:
           sudo usermod -a -G ec2-user nginx
           # sudo chown -R nginx:nginx /var/www/html/mentor-backend
           sudo chmod -R 755 /var/www/html/mentor-backend
-          sudo chmod -R 775 /var/www/html/mentor-backend/storage
-          sudo chmod -R 775 /var/www/html/mentor-backend/bootstrap/cache
+          sudo chmod -R 777 /var/www/html/mentor-backend/storage
+          sudo chmod -R 777 /var/www/html/mentor-backend/bootstrap/cache
 
           # Restart PHP-FPM
           sudo systemctl restart php8.2-fpm
