@@ -85,11 +85,12 @@ jobs:
           php artisan optimize:clear
           
           # Set proper permissions
-          # sudo chown -R www-data:www-data /var/www/html/mentor-backend
+          sudo usermod -a -G ec2-user nginx
+          # sudo chown -R nginx:nginx /var/www/html/mentor-backend
           sudo chmod -R 755 /var/www/html/mentor-backend
           sudo chmod -R 775 /var/www/html/mentor-backend/storage
           sudo chmod -R 775 /var/www/html/mentor-backend/bootstrap/cache
-          
+
           # Restart PHP-FPM
           sudo systemctl restart php8.2-fpm
           sudo systemctl restart nginx
