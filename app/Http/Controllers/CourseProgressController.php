@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CourseProgress;
 use App\Http\Requests\StoreCourseProgressRequest;
 use App\Http\Requests\UpdateCourseProgressRequest;
+use App\Models\CourseProgress;
 
 class CourseProgressController extends Controller
 {

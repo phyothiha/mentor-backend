@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use App\Enums\V1\PermissionEnum;
 use App\Enums\V1\RoleEnum;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -22,7 +22,7 @@ class RolesAndPermissionsSeeder extends Seeder
         foreach (PermissionEnum::getAll() as $permission) {
             Permission::create(['name' => $permission]);
         }
-        
+
         // create roles and assign created permissions
 
         Role::create(['name' => RoleEnum::ADMIN->value])

@@ -10,6 +10,6 @@ enum CourseProgressCategoryEnum: string
 
     public static function getAll(): array
     {
-        return array_map(fn($category) => $category->value, self::cases());
+        return array_map(fn ($category) => $category->value, self::cases());
     }
 }

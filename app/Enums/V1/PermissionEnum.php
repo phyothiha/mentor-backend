@@ -2,8 +2,6 @@
 
 namespace App\Enums\V1;
 
-use App\Enums\V1\RoleEnum;
-
 enum PermissionEnum: string
 {
     // Roles have Permissions
@@ -12,17 +10,17 @@ enum PermissionEnum: string
     case LIST_USERS = 'list_users';
     case CREATE_USER = 'create_user';
     case UPDATE_USER = 'update_user';
-    
+
     case VIEW_MENTEE = 'view_mentee';
     case LIST_MENTEES = 'list_mentees';
     case CREATE_MENTEE = 'create_mentee';
     case UPDATE_MENTEE = 'update_mentee';
-    
+
     public static function getAll(): array
     {
-        return array_map(fn($permission) => $permission->value, self::cases());
+        return array_map(fn ($permission) => $permission->value, self::cases());
     }
-    
+
     public static function groupByRole(): array
     {
         return [
