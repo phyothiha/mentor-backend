@@ -1,0 +1,37 @@
+name: Laravel Pint
+
+on:
+  push:
+    branches:
+      - main
+          
+jobs:
+  laravel-pint:
+    runs-on: ubuntu-latest
+    
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v4.2.2
+          with:
+            ref: ${{ github.head_ref }}
+
+        - name: Setup PHP
+          uses: shivammathur/setup-php@2.34.1
+          with:
+            php-version: '8.3'
+            tools: composer:v2
+
+        - name: Install Composer
+          run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+        - name: Run Laravel Pint
+          run: vendor/bin/pint
+          
+        - name: Commit changes
+          run: |
+            git config --local user.name "Phyo Thiha"
+            git config --local user.email "phyothiha96@gmail.com"
+            git add .
+            git commit -m "github_actions: Apply Laravel Pint formatting"
+            git push
+              
